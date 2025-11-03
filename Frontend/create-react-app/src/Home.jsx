@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 const Home = () => (
   <div>
     {/* Hero Section */}
-    <main className="container mx-auto px-6 py-12">
+    <main className="container mx-auto px-6 py-12 min-h-[500px]">
       <section className="text-center mb-16">
         <h2 className="text-4xl font-bold text-gray-800 mb-6 leading-tight">
           Denuncie números suspeitos e ajude a comunidade a se proteger de golpes
