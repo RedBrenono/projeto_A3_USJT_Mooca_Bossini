@@ -1,5 +1,5 @@
 const Consulta = () => (
-  <div className="container mx-auto px-6 py-12 min-h-[692px]">
+  <div className="container mx-auto px-6 py-12 min-h-[647px]">
     <div className="flex flex-col items-center justify-center mb-8">
       <h2 className=" text-4xl font-bold mb-4">Consultar número</h2>
       <p>Digite o número de telefone para verificar se há denúncias registradas</p>
