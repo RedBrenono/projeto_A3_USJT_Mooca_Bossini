@@ -1,9 +1,12 @@
 const Denuncia = () => (
   <div className="container mx-auto px-6 py-12">
     <div className="flex flex-col items-center justify-center">
+      <i className='fas fa-exclamation-triangle fa-2x fa-width-auto rounded-full p-3 bg-orange-200 mb-3'></i>
       <h2 className="text-xl  mb-4">Fazer denúncia</h2>
       <p className="mb-8 text-gray-600">Preencha o formulário abaixo para registrar um número suspeito.</p>
-      <p className="bg-green-100 text-green-800 p-3 rounded-full px-18">Denúncia anônima</p>
+      <p className="bg-green-100 text-green-800 p-3 rounded-full px-18">
+        <i className='fas fa-user-secret mr-2'></i>
+        Denúncia anônima</p>
     </div>
     <div className="max-w-2xl mx-auto">
       <form action="#" className="border border-gray-300 bg-white mt-6 rounded-lg flex flex-col p-6">
@@ -47,7 +50,7 @@ const Denuncia = () => (
         <input
           type="submit"
           value="Registrar denúncia"
-          className="bg-blue-500 hover:bg-blue-600 rounded-md mx-auto p-1 mt-4 px-6" />
+          className="bg-blue-500 hover:bg-blue-600 rounded-md  p-1 mt-4 px-6" />
 
       </form>
       <p className="flex justify-center pt-8 text-gray-600">Campos obrigatórios são marcados com *</p>

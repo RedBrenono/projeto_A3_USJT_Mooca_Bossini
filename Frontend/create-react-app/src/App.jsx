@@ -5,6 +5,7 @@ import Header from './Header.jsx'
 import Footer from './Footer.jsx'
 import Consulta from './Consulta.jsx'
 import Denuncia from './Denuncia.jsx'
+import Entrar from './Entrar.jsx'
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/Consulta" element={<Consulta />} />
           <Route path="/Denuncia" element={<Denuncia />} />
+          <Route path="/Entrar" element={<Entrar />} />
         </Routes>
       </main>
 

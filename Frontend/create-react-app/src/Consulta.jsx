@@ -12,7 +12,8 @@ const Consulta = () => (
         className="flex-1 min-w-0 w-full border border-gray-300 bg-white rounded-xl pl-4 py-2 shadow-sm"
       />
 
-      <button className="flex-shrink-0 bg-blue-600 text-white rounded-xl px-6 py-2 shadow-sm hover:bg-blue-700">
+      <button className="flex-shrink-0 bg-blue-600 text-white rounded-xl px-5 py-2 shadow-sm hover:bg-blue-700">
+        <i className='fas fa-search mr-2'></i>
         Consultar
       </button>
     </div>

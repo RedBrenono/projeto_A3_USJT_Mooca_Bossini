@@ -1,9 +1,9 @@
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Home = () => (
   <div>
     {/* Hero Section */}
-    <main className="container mx-auto px-6 py-12 min-h-[500px]">
+    <main className="container mx-auto px-6 py-12 min-h-[500px] ">
       <section className="text-center mb-16">
         <h2 className="text-4xl font-bold text-gray-800 mb-6 leading-tight">
           Denuncie números suspeitos e ajude a comunidade a se proteger de golpes
@@ -16,8 +16,10 @@ const Home = () => (
 
       {/* Services Grid */}
       <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
-        <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-100">
-          <Link to="/consulta" className="block">
+
+        <div className="hover:shadow-lg shadow-md border border-gray-100 rounded-xl bg-white">
+          <Link to="/consulta" className="flex flex-col items-center p-8">
+            <i className='fas fa-search fa-2x fa-width-auto rounded-full p-2.5 bg-blue-200 '></i>
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Consultar número</h3>
             <p className="text-gray-600 text-lg leading-relaxed">
               Verifique se um número possui denúncias registradas
@@ -25,8 +27,9 @@ const Home = () => (
           </Link>
         </div>
 
-        <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-100">
-          <Link to="/denuncia" className="block">
+        <div className='hover:shadow-lg shadow-md border border-gray-100 rounded-xl bg-white'>
+          <Link to="/denuncia" className="flex flex-col items-center p-8">
+            <i className='fas fa-exclamation-triangle fa-2x fa-width-auto rounded-full p-2.5 bg-orange-200'></i>
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Fazer denúncia</h3>
             <p className="text-gray-600 text-lg leading-relaxed">
               Registre um número suspeito e ajude outras pessoas
