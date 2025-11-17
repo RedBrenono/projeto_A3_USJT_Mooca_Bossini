@@ -5,7 +5,7 @@ const Entrar = () => {
   const [tab, setTab] = useState("login")
 
   return (
-    <div>
+    <>
       <div>
         <button
           type="button"
@@ -24,14 +24,13 @@ const Entrar = () => {
             onClick={() => setShowModal(false)}
           />
           <div className="relative flex flex-col bg-white rounded-lg p-6 w-full max-w-md shadow-lg ">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between ">
               <h3 className="text-lg font-semibold m-1">Autenticação Necessária</h3>
               <button
                 type="button"
                 onClick={() => setShowModal(false)}
-                className="px-4 py-2 border rounded m-1"
-              >
-                Fechar
+                className="px-4 py-2 m-1 ">
+                <i className='fas fa-times hover:text-gray-600'></i>
               </button>
             </div>
 
@@ -43,16 +42,14 @@ const Entrar = () => {
               <button
                 onClick={() => setTab("login")}
                 className={`w-1/2 py-2 rounded-full transition 
-                ${tab === "login" ? "bg-white text-gray-600" : "text-gray-600"}
-                `}>
+                ${tab === "login" ? "bg-white text-gray-600" : "text-gray-600"}`}>
               
                 Entrar
               </button>
               <button
                 onClick={() => setTab("register")}
                 className={`w-1/2 py-2 rounded-full transition 
-                ${tab === "register" ? "bg-white text-gray-600" : "text-gray-600"}
-                `}>
+                ${tab === "register" ? "bg-white text-gray-600" : "text-gray-600"}`}>
                 Criar conta
               </button>
             </div>
@@ -83,7 +80,7 @@ const Entrar = () => {
 
               <input
                 type="submit"
-                value="Registrar denúncia"
+                value="Entrar"
                 className="bg-blue-500 hover:bg-blue-600 rounded-md  p-1 mt-4 px-6 m-1" />
             </form>
             )}
@@ -130,7 +127,7 @@ const Entrar = () => {
           </div>
         </div>
       )}
-    </div>
+    </>
   )
 }
 
