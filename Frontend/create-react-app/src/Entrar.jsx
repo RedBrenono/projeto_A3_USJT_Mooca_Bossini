@@ -55,7 +55,7 @@ const Entrar = () => {
             </div>
 
             {tab === "login" && (
-            <form action="#" className='bg-white my-6 rounded-lg flex flex-col'>
+            <form className='bg-white my-6 rounded-lg flex flex-col'>
               <label
                 htmlFor="email"
                 className='m-1'>
@@ -92,7 +92,7 @@ const Entrar = () => {
                   type="email"
                   id="reg-email"
                   name="email"
-                  placeholder="seu@gmail.com"
+                  placeholder="exemplo@gmail.com"
                   className="bg-gray-200 rounded-md m-1 pl-4 p-1"
                 />
 

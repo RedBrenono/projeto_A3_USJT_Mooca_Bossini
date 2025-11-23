@@ -83,6 +83,21 @@ app.delete("/denuncias/:id", async (req, res) => {
 
 
 
+app.post("/usuarios", async (req, res) => {
+    try {
+        const {email, senha_hash} = req.body
+        const novoUsuario = await pool.query(
+            "INSERT INTO usuarios (email, senha_hash) VALUES ($1, $2) RETURNING * ", [email, senha_hash]
+        )
+        res.json(novoUsuario.rows[0])
+    } catch (err) {
+        console.error(err.message);
+        
+    }
+})
+
+
+
 app.listen(5000, () => {
     console.log("Servidor rodando na porta 5000")
 })
