@@ -130,7 +130,7 @@ app.get("/denuncias/numero/:numero", async (req, res) => {
       [numero]
     );
     if(denuncia.rows.length === 0){
-        return res.json("Não há denúncias nesse numero")
+        return res.json([])
     }
     res.json(denuncia.rows);
   } catch (err) {
