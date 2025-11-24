@@ -100,7 +100,7 @@ app.post("/usuarios", async (req, res) => {
 
 app.get("/denuncias/numero/:numero", async (req, res) => {
   try {
-    const { numero } = req.params;
+    const { numero } = req.params
     const denuncia = await pool.query(
       "SELECT * FROM denuncias WHERE numero_telefone = $1",
       [numero]
@@ -110,6 +110,18 @@ app.get("/denuncias/numero/:numero", async (req, res) => {
     console.error(err.message);
   }
 });
+
+
+app.get("/denuncias", async (req, res) => {
+    try {
+        const { numero } = req.params
+        const contagemNumeros = await pool.query(
+            "SELECT COUNT(DISTINCT numero_telefone) FROM denuncias")
+            res.json(contagemNumeros)
+    } catch (err) {
+        console.error(err.message)
+    }
+})
 
 
 
