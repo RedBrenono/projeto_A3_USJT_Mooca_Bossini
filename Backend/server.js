@@ -98,6 +98,21 @@ app.post("/usuarios", async (req, res) => {
 
 
 
+app.get("/denuncias/numero/:numero", async (req, res) => {
+  try {
+    const { numero } = req.params;
+    const denuncia = await pool.query(
+      "SELECT * FROM denuncias WHERE numero_telefone = $1",
+      [numero]
+    );
+    res.json(denuncia.rows);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+
+
 app.listen(5000, () => {
     console.log("Servidor rodando na porta 5000")
 })

@@ -4,7 +4,7 @@ CREATE TABLE numeros_risco (
   numero_telefone VARCHAR(15) UNIQUE NOT NULL,
   quantidade_denuncias INT DEFAULT 1,
   risco VARCHAR(10) DEFAULT 'baixo',
-  ultima_denuncia TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  ultima_denuncia TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Tabela de denuncias
