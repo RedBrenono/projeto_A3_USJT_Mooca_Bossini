@@ -129,6 +129,9 @@ app.get("/denuncias/numero/:numero", async (req, res) => {
       "SELECT * FROM denuncias WHERE numero_telefone = $1",
       [numero]
     );
+    if(denuncia.rows.length === 0){
+        return res.json("Não há denúncias nesse numero")
+    }
     res.json(denuncia.rows);
   } catch (err) {
     console.error(err.message);

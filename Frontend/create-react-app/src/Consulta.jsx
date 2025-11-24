@@ -5,23 +5,19 @@ import axios from 'axios'
 const Consulta = () => {
 
   const [numero, setNumero] = useState("")
-  const [consulta, setConsulta] = useState([0])
+  const [consulta, setConsulta] = useState([])
 
   const buscarConsulta = async () => {
 
     try {
       const response = await axios.get(`http://localhost:5000/denuncias/numero/${numero}`)
-      setConsulta(response.data)    
+      setConsulta(response.data ??[])  
+      
 
     } catch (err) {
-      console.error(err.message);
+      console.error(err.message)
+      setConsulta([])
     }}
-
-   useEffect(() => {
-    buscarConsulta()
-  }, [])
-
-  console.log(consulta);
   
 
   return (
@@ -47,26 +43,27 @@ const Consulta = () => {
         </button>
       </div>
 
-      {consulta && (
-      <div className="grid grid-cols-2 gap-3 rounded-xl bg-white mt-4 p-2 shadow-md border border-gray-300">
+      {consulta.length > 0 && (
+        consulta.map((item) => (
+      <div key={item.id} className="grid grid-cols-2 gap-3 rounded-xl bg-white mt-4 p-2 shadow-md border border-gray-300">
 
         <p className="font-semibold text-gray-700">Número:</p>
-        <p className="text-gray-600">{consulta[0].numero_telefone}</p>
+        <p className="text-gray-600">{item.numero_telefone}</p>
 
         <p className="font-semibold text-gray-700">Instituição:</p>
-        <p className="text-gray-600">{consulta[0].instituicao}</p>
+        <p className="text-gray-600">{item.instituicao}</p>
 
         <p className="font-semibold text-gray-700">Descrição:</p>
-        <p className="text-gray-600">{consulta[0].descricao}</p>
+        <p className="text-gray-600">{item.descricao}</p>
 
         <p className="font-semibold text-gray-700">Região:</p>
-        <p className="text-gray-600">{consulta[0].regiao}</p>
+        <p className="text-gray-600">{item.regiao}</p>
 
         {/* <p className="font-semibold text-gray-700">Data:</p>
         <p className="text-gray-600"> {new Date(consulta[0].data_denuncia).toLocaleDateString("pt-BR")}</p> */}
 
       </div>
-      )}
+      )))}
 
     </div>
 
