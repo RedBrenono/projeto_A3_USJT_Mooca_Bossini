@@ -36,6 +36,44 @@ app.get("/denuncias", async (req, res) => {
 })
 
 
+app.get("/denuncias/denunciaQuantidade", async (req, res) => {
+    try {
+        const contagemDenuncias = await pool.query(
+            "SELECT COUNT(*) FROM denuncias")
+            res.json({ total : contagemDenuncias.rows[0].count})
+    } catch (err) {
+        console.error(err.message);
+        
+    }
+})
+
+
+
+app.get("/denuncias/numeroQuantidade", async (req, res) => {
+    try {
+        const contagemNumeros = await pool.query(
+            "SELECT COUNT(DISTINCT numero_telefone) FROM denuncias")
+            res.json({ total : contagemNumeros.rows[0].count })
+    } catch (err) {
+        console.error(err.message)
+    }
+})
+
+
+app.post("/usuarios", async (req, res) => {
+    try {
+        const {email, senha_hash} = req.body
+        const novoUsuario = await pool.query(
+            "INSERT INTO usuarios (email, senha_hash) VALUES ($1, $2) RETURNING * ", [email, senha_hash]
+        )
+        res.json(novoUsuario.rows[0])
+    } catch (err) {
+        console.error(err.message);
+        
+    }
+})
+
+
 
 app.get("/denuncias/:id", async (req, res) => {
     try {
@@ -83,20 +121,6 @@ app.delete("/denuncias/:id", async (req, res) => {
 
 
 
-app.post("/usuarios", async (req, res) => {
-    try {
-        const {email, senha_hash} = req.body
-        const novoUsuario = await pool.query(
-            "INSERT INTO usuarios (email, senha_hash) VALUES ($1, $2) RETURNING * ", [email, senha_hash]
-        )
-        res.json(novoUsuario.rows[0])
-    } catch (err) {
-        console.error(err.message);
-        
-    }
-})
-
-
 
 app.get("/denuncias/numero/:numero", async (req, res) => {
   try {
@@ -112,16 +136,7 @@ app.get("/denuncias/numero/:numero", async (req, res) => {
 });
 
 
-app.get("/denuncias", async (req, res) => {
-    try {
-        const { numero } = req.params
-        const contagemNumeros = await pool.query(
-            "SELECT COUNT(DISTINCT numero_telefone) FROM denuncias")
-            res.json(contagemNumeros)
-    } catch (err) {
-        console.error(err.message)
-    }
-})
+
 
 
 
