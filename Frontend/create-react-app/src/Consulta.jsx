@@ -13,7 +13,7 @@ const Consulta = () => {
     try {
       const response = await axios.get(`http://localhost:5000/denuncias/numero/${numero}`)
       setConsulta(response.data ?? [])
-      
+
     } catch (err) {
       console.error(err.message)
       setConsulta([])
@@ -47,19 +47,26 @@ const Consulta = () => {
 
       {consulta.length > 0 && (
         consulta.map((item) => (
-          <div key={item.id} className="grid grid-cols-2 gap-3 rounded-xl bg-white mt-4 p-2 shadow-md border border-gray-300">
+          <div key={item.id} className="flex flex-col gap-1 rounded-md bg-white mt-4 p-2 shadow-md border border-black">
+            <div className="flex">
+              <p className="font-semibold text-black mr-1">Número:</p>
+              <p className="text-gray-600">{item.numero_telefone}</p>
+            </div>
 
-            <p className="font-semibold text-gray-700">Número:</p>
-            <p className="text-gray-600">{item.numero_telefone}</p>
+            <div className="flex">
+              <p className="font-semibold text-black mr-1">Instituição:</p>
+              <p className="text-gray-600">{item.instituicao}</p>
+            </div>
 
-            <p className="font-semibold text-gray-700">Instituição:</p>
-            <p className="text-gray-600">{item.instituicao}</p>
+            <div className="flex">
+              <p className="font-semibold text-black mr-1">Descrição:</p>
+              <p className="text-gray-600">{item.descricao}</p>
+            </div>
 
-            <p className="font-semibold text-gray-700">Descrição:</p>
-            <p className="text-gray-600">{item.descricao}</p>
-
-            <p className="font-semibold text-gray-700">Região:</p>
-            <p className="text-gray-600">{item.regiao}</p>
+            <div className="flex">
+              <p className="font-semibold text-black mr-1">Região:</p>
+              <p className="text-gray-600">{item.regiao}</p>
+            </div>
 
             {/* <p className="font-semibold text-gray-700">Data:</p>
         <p className="text-gray-600"> {new Date(consulta[0].data_denuncia).toLocaleDateString("pt-BR")}</p> */}
@@ -68,7 +75,7 @@ const Consulta = () => {
         )))}
 
       {buscou && consulta.length === 0 && (
-        <div className="flex items-center justify-center bg-green-100 shadow-md mt-4 p-4 rounded-xl border border-gray-300">
+        <div className="flex items-center justify-center mt-4 p-4 ">
           <p>
             Nenhuma denúncia registrada nesse número
           </p>

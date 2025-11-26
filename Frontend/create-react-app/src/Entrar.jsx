@@ -94,10 +94,9 @@ const Entrar = () => {
                   placeholder='*******'
                   className='bg-gray-200 rounded-md m-1 pl-4 p-1' />
 
-                <input
-                  type="submit"
-                  value="Entrar"
-                  className="bg-blue-500 hover:bg-blue-600 rounded-md  p-1 mt-4 px-6 m-1" />
+                <button type='submit' className='bg-blue-500 hover:bg-blue-600 rounded-md  p-1 mt-4 px-6 m-1'>
+                  Entrar
+                </button>
               </form>
             )}
 
