@@ -16,7 +16,6 @@ const Entrar = () => {
     const fetchUsuario = async () => {
       try {
         const response = await axios.get("http://localhost:5000/me")
-        // server returns { usuario: {...} } or user object directly
         const user = response.data.usuario || response.data
         setUsuario(user)
         if (user && user.email) localStorage.setItem('userEmail', user.email)
@@ -28,16 +27,11 @@ const Entrar = () => {
     }
     fetchUsuario()
 
-    // listen for external requests to open the login modal
     const openHandler = () => setShowModal(true)
     window.addEventListener('open-login-modal', openHandler)
 
     return () => window.removeEventListener('open-login-modal', openHandler)
   }, [])
-
-  // if (loading) {
-  //   return <div>Carregando...</div>
-  // }
 
   const onFormSubmitLogin = async (event) => {
     event.preventDefault()
@@ -70,16 +64,14 @@ const Entrar = () => {
     try {
       await axios.post('http://localhost:5000/logout')
     } catch (err) {
-      // ignore
     }
     localStorage.removeItem('userEmail')
     setUsuario(null)
   }
 
-  // if user is present, show email + logout
   if (usuario) {
     return (
-      <div className="flex items-center space-x-3">
+      <div className="flex space-x-3">
         <span className="text-gray-700">{usuario.email}</span>
         <button onClick={handleLogout} className="text-sm px-3 py-1 border rounded hover:bg-gray-100">Sair</button>
       </div>

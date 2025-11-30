@@ -81,7 +81,6 @@ app.get("/denuncias/numeroQuantidade", async (req, res) => {
 })
 
 
-// retorna data/hora da última denúncia (ISO string)
 app.get('/denuncias/ultima', async (req, res) => {
     try {
         const result = await pool.query(
@@ -91,7 +90,6 @@ app.get('/denuncias/ultima', async (req, res) => {
             return res.json({ ultima: null })
         }
         const dataDenuncia = result.rows[0].data_denuncia
-        // dataDenuncia pode ser Date ou string dependendo da configuração do pg
         const iso = dataDenuncia ? (dataDenuncia instanceof Date ? dataDenuncia.toISOString() : dataDenuncia) : null
         return res.json({ ultima: iso })
     } catch (err) {
