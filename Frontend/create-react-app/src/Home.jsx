@@ -6,6 +6,7 @@ const Home = () => {
 
   const [quantidadeNumeros, setQuantidadeNumeros] = useState(0)
   const [quantidadeDenuncias, setQuantidadeDenuncias] = useState(0)
+  const [ultimaDenuncia, setUltimaDenuncia] = useState(null)
 
   const exibirQuantidadeDenuncias = async () => {
     try {
@@ -13,7 +14,7 @@ const Home = () => {
       setQuantidadeDenuncias(response.data.total)
     } catch (err) {
       console.error(err.message);
-      
+
     }
   }
 
@@ -26,12 +27,22 @@ const Home = () => {
       console.error(err.message);
 
     }
-  } 
-  
+  }
+
+  const exibirUltimaDenuncia = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/denuncias/ultima')
+      setUltimaDenuncia(response.data.ultima)
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
 
   useEffect(() => {
-    exibirQuantidadeNumeros(), 
+    exibirQuantidadeNumeros()
     exibirQuantidadeDenuncias()
+    exibirUltimaDenuncia()
   }, [])
 
 
@@ -74,18 +85,20 @@ const Home = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto text-center">
 
-          <div className="bg-white rounded-lg p-6 shadow-md">
+          <div className="flex flex-col justify-center bg-white rounded-lg p-6 shadow-md">
             <div className="text-3xl font-bold text-blue-600 mb-2">{quantidadeNumeros}</div>
             <div className="text-gray-600 font-medium">Números denunciados</div>
 
           </div>
-          <div className="bg-white rounded-lg p-6 shadow-md">
+          <div className="flex flex-col justify-center bg-white rounded-lg p-6 shadow-md">
             <div className="text-3xl font-bold text-blue-600 mb-2">{quantidadeDenuncias}</div>
             <div className="text-gray-600 font-medium">Denúncias registradas</div>
           </div>
-          <div className="bg-white rounded-lg p-6 shadow-md">
-            <div className="text-3xl font-bold text-blue-600 mb-2">0</div>
-            <div className="text-gray-600 font-medium">Usuários satisfeitos</div>
+          <div className="flex flex-col justify-center bg-white rounded-lg p-6 shadow-md">
+            <div className="text-xl font-bold text-blue-600 mb-2">
+              {ultimaDenuncia ? new Date(ultimaDenuncia).toLocaleString() : 'Nenhuma denúncia'}
+            </div>
+            <div className="text-gray-600 font-medium">Última denúncia</div>
           </div>
         </div>
       </main>

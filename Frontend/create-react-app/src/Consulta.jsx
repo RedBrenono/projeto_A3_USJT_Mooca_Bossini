@@ -68,8 +68,12 @@ const Consulta = () => {
               <p className="text-gray-600">{item.regiao}</p>
             </div>
 
-            {/* <p className="font-semibold text-gray-700">Data:</p>
-        <p className="text-gray-600"> {new Date(consulta[0].data_denuncia).toLocaleDateString("pt-BR")}</p> */}
+            <div className="flex">
+              <p className="font-semibold text-black mr-1">Data:</p>
+              <p className="text-gray-600">
+                {new Date(item.data_denuncia).toLocaleString("pt-BR", {dateStyle: "short", timeStyle: "short"})}
+              </p>
+            </div>
 
           </div>
         )))}
