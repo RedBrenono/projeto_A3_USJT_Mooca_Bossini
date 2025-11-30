@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from "axios"
 
 
@@ -12,9 +12,19 @@ const Denuncia = () => {
   const onSubmitForm = async (event) => {
     event.preventDefault()
     try {
+      // check if user is logged in before sending
+      axios.defaults.withCredentials = true
+      try {
+        await axios.get('http://localhost:5000/me')
+      } catch (err) {
+        // not logged in -> open login/register modal
+        window.dispatchEvent(new CustomEvent('open-login-modal'))
+        return
+      }
+
       const body = { numero_telefone, instituicao, descricao, regiao }
-      const response = await axios.post("http://localhost:5000/denuncias",
-        { numero_telefone, instituicao, descricao, regiao })
+      const response = await axios.post("http://localhost:5000/denuncias", body)
+      // on success, you can navigate or show message
       window.location = "/Denuncia"
       
     } catch (err) {

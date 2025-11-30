@@ -1,36 +1,103 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
+axios.defaults.withCredentials = true
+
 const Entrar = () => {
   const [showModal, setShowModal] = useState(false)
   const [tab, setTab] = useState("login")
-  const [email, setEmail] = useState('')
-  const [senha_hash, setSenha_hash] = useState('')
+  const [form , setForm] = useState({email: '', senha_hash: ''})
+  const [usuario, setUsuario] = useState(null)
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(true)
 
-  const OnFormSubmit = async (event) => {
+
+  useEffect(() => {
+    const fetchUsuario = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/me")
+        // server returns { usuario: {...} } or user object directly
+        const user = response.data.usuario || response.data
+        setUsuario(user)
+        if (user && user.email) localStorage.setItem('userEmail', user.email)
+      } catch (err) {
+        setUsuario(null);
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchUsuario()
+
+    // listen for external requests to open the login modal
+    const openHandler = () => setShowModal(true)
+    window.addEventListener('open-login-modal', openHandler)
+
+    return () => window.removeEventListener('open-login-modal', openHandler)
+  }, [])
+
+  // if (loading) {
+  //   return <div>Carregando...</div>
+  // }
+
+  const onFormSubmitLogin = async (event) => {
     event.preventDefault()
     try {
-      const body = {email, senha_hash}
-      const response = await axios.post("http://localhost:5000/usuarios", { email, senha_hash })
+      const response = await axios.post("http://localhost:5000/usuariosEntrar", form)
+      const user = response.data.usuario || response.data
+      setUsuario(user)
+      if (user && user.email) localStorage.setItem('userEmail', user.email)
       setShowModal(false)
     } catch (err) {
-      console.error(err.message);
-      
+      setError("Credenciais inválidas")
     }
+  }
+
+  const onFormSubmitRegister = async (event) => {
+    event.preventDefault()
+    try {
+      const response = await axios.post("http://localhost:5000/usuariosRegistrar", form)
+        const user = response.data.usuario || response.data
+        setUsuario(user)
+        if (user && user.email) localStorage.setItem('userEmail', user.email)
+      setShowModal(false)
+    } catch (err) {
+      setError("Erro ao registrar usuário")
+
+    }
+  }
+
+  const handleLogout = async () => {
+    try {
+      await axios.post('http://localhost:5000/logout')
+    } catch (err) {
+      // ignore
+    }
+    localStorage.removeItem('userEmail')
+    setUsuario(null)
+  }
+
+  // if user is present, show email + logout
+  if (usuario) {
+    return (
+      <div className="flex items-center space-x-3">
+        <span className="text-gray-700">{usuario.email}</span>
+        <button onClick={handleLogout} className="text-sm px-3 py-1 border rounded hover:bg-gray-100">Sair</button>
+      </div>
+    )
   }
 
   return (
     <>
-        <div>
-          <button
-            type="button"
-            onClick={() => setShowModal(true)}
-            className="text-black hover:bg-gray-100 rounded-md border border-gray-300 pr-4 pl-4">
-            <i className="fas fa-sign-in-alt mr-1" />
-            Entrar
-          </button> 
+      <div>
+        <button
+          type="button"
+          onClick={() => setShowModal(true)}
+          className="text-black hover:bg-gray-100 rounded-md border border-gray-300 pr-4 pl-4">
+          <i className="fas fa-sign-in-alt mr-1" />
+          Entrar
+        </button>
 
-        </div>
+      </div>
 
 
       {showModal && (
@@ -71,13 +138,18 @@ const Entrar = () => {
             </div>
 
             {tab === "login" && (
-              <form className='bg-white my-6 rounded-lg flex flex-col'>
+              <form 
+              onSubmit={onFormSubmitLogin}
+              className='bg-white my-6 rounded-lg flex flex-col'>
                 <label
                   htmlFor="email"
                   className='m-1'>
                   E-mail
                 </label>
+                {error && <p className="text-red-500 m-1">{error}</p>}
                 <input
+                  value={form.email}
+                  onChange={(e) => setForm({...form, email: e.target.value})}
                   type="text"
                   id='email'
                   placeholder='seu@gmail.com'
@@ -89,6 +161,8 @@ const Entrar = () => {
                   Senha
                 </label>
                 <input
+                  value={form.senha_hash}
+                  onChange={(e) => setForm({...form, senha_hash: e.target.value})}
                   type="text"
                   id='senha'
                   placeholder='*******'
@@ -101,13 +175,14 @@ const Entrar = () => {
             )}
 
             {tab === "register" && (
-              <form 
-              onSubmit={OnFormSubmit}
-              className="bg-white my-6 rounded-lg flex flex-col">
+              <form
+                onSubmit={onFormSubmitRegister}
+                className="bg-white my-6 rounded-lg flex flex-col">
                 <label htmlFor="reg-email" className="m-1">E-mail</label>
+                {error && <p className="text-red-500 m-1">{error}</p>}
                 <input
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
+                  value={form.email}
+                  onChange={(e) => setForm({...form, email: e.target.value})}
                   type="email"
                   id="reg-email"
                   name="email"
@@ -117,8 +192,8 @@ const Entrar = () => {
 
                 <label htmlFor="reg-senha" className="m-1">Senha</label>
                 <input
-                  value={senha_hash}
-                  onChange={e => setSenha_hash(e.target.value)}
+                  value={form.senha_hash}
+                  onChange={(e) => setForm({...form, senha_hash: e.target.value})}
                   type="password"
                   id="reg-senha"
                   name="senha"
@@ -138,7 +213,7 @@ const Entrar = () => {
                 <button type='submit' className='bg-green-600 hover:bg-green-700 rounded-md p-1 mt-4 px-6 m-1 text-white cursor-pointer'>
                   Criar conta
                 </button>
-                
+
               </form>
             )}
 

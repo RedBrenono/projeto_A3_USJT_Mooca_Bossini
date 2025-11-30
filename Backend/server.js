@@ -1,15 +1,15 @@
-import express from 'express'
-const app = express()
-import cors from 'cors'
-import pool from './db.js'
-import cookieParser from 'cookie-parser'
 import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
+import cookieParser from 'cookie-parser'
+import cors from 'cors'
+import express from 'express'
+import pool from './db.js'
 import { protect } from './middleware.js'
+import jwt from 'jsonwebtoken'
 
 //middleware
+const app = express()
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:5173',
     credentials: true
 }))
 app.use(express.json())
