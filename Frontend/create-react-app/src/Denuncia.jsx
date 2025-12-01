@@ -8,6 +8,7 @@ const Denuncia = () => {
   const [instituicao, setInstituicao] = useState('')
   const [descricao, setDescricao] = useState('')
   const [regiao, setRegiao] = useState('')
+  const [error, setError] = useState('')
 
   const onSubmitForm = async (event) => {
     event.preventDefault()
@@ -23,10 +24,13 @@ const Denuncia = () => {
       const body = { numero_telefone, instituicao, descricao, regiao }
       const response = await axios.post("http://localhost:5000/denuncias", body)
       window.location = "/Denuncia"
-      
-    } catch (err) {
-      console.error(err.message);
 
+    } catch (err) {
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message)
+      } else {
+        console.error(err);
+      }
     }
   }
 
@@ -89,6 +93,8 @@ const Denuncia = () => {
               className="bg-gray-200 rounded-md m-1 pl-4 p-1"
               value={regiao}
               onChange={e => setRegiao(e.target.value)} />
+
+            {error && <p className="text-red-500 m-1">{error}</p>}
 
             <button type='submit' className="bg-blue-500 hover:bg-blue-600 rounded-md  p-1 mt-4 px-6">
               Registrar denúncia

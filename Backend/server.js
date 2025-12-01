@@ -31,6 +31,9 @@ const generateToken = (id) => {
 app.post("/denuncias", async (req, res) => {
     try {
         const { numero_telefone, instituicao, descricao, regiao } = req.body
+         if (!numero_telefone || !descricao || !regiao) {
+            return res.status(400).json({ message: "Preencha todos os campos obrigatórios" })
+        }
         const novaDenuncia = await pool.query(
             "INSERT INTO denuncias (numero_telefone, instituicao, descricao, regiao) VALUES ($1, $2, $3, $4) RETURNING * ",
             [numero_telefone, instituicao, descricao, regiao]
@@ -133,12 +136,12 @@ app.post("/usuariosEntrar", async (req, res) => {
         const usuario = await pool.query(
             "SELECT * FROM usuarios WHERE email = $1", [email])
         if (usuario.rows.length === 0) {
-            return res.status(400).json({ message: "Credenciais inválidas" })
+            return res.status(400).json({ message: "E-mail ou senha incorretos" })
         }
         const userData = usuario.rows[0]
         const comparaSenha = await bcrypt.compare(senha_hash, userData.senha_hash)
         if (!comparaSenha) {
-            return res.status(400).json({ message: "Credenciais inválidas" })
+            return res.status(400).json({ message: "E-mail ou senha incorretos" })
         }
         const token = generateToken(userData.id)
         res.cookie("token", token, cookieOptions)

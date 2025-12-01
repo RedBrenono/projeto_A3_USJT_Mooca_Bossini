@@ -14,7 +14,7 @@ CREATE TABLE denuncias (
   instituicao VARCHAR(100),
   descricao TEXT,
   regiao VARCHAR(100),
-  data_denuncia TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  data_denuncia TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   status VARCHAR(10) DEFAULT 'ativa',
   numero_risco_id INT,
   CONSTRAINT fk_numero_risco

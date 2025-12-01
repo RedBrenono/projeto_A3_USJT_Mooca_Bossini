@@ -6,7 +6,7 @@ axios.defaults.withCredentials = true
 const Entrar = () => {
   const [showModal, setShowModal] = useState(false)
   const [tab, setTab] = useState("login")
-  const [form , setForm] = useState({email: '', senha_hash: ''})
+  const [form, setForm] = useState({ email: '', senha_hash: '' })
   const [usuario, setUsuario] = useState(null)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
@@ -25,6 +25,7 @@ const Entrar = () => {
         setLoading(false)
       }
     }
+    
     fetchUsuario()
 
     const openHandler = () => setShowModal(true)
@@ -42,7 +43,11 @@ const Entrar = () => {
       if (user && user.email) localStorage.setItem('userEmail', user.email)
       setShowModal(false)
     } catch (err) {
-      setError("Credenciais inválidas")
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message)
+      } else {
+        setError("Erro desconhecido")
+      }
     }
   }
 
@@ -50,13 +55,16 @@ const Entrar = () => {
     event.preventDefault()
     try {
       const response = await axios.post("http://localhost:5000/usuariosRegistrar", form)
-        const user = response.data.usuario || response.data
-        setUsuario(user)
-        if (user && user.email) localStorage.setItem('userEmail', user.email)
+      const user = response.data.usuario || response.data
+      setUsuario(user)
+      if (user && user.email) localStorage.setItem('userEmail', user.email)
       setShowModal(false)
     } catch (err) {
-      setError("Erro ao registrar usuário")
-
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message)
+      } else {
+        setError("Erro desconhecido")
+      }
     }
   }
 
@@ -130,9 +138,9 @@ const Entrar = () => {
             </div>
 
             {tab === "login" && (
-              <form 
-              onSubmit={onFormSubmitLogin}
-              className='bg-white my-6 rounded-lg flex flex-col'>
+              <form
+                onSubmit={onFormSubmitLogin}
+                className='bg-white my-6 rounded-lg flex flex-col'>
                 <label
                   htmlFor="email"
                   className='m-1'>
@@ -141,7 +149,7 @@ const Entrar = () => {
                 {error && <p className="text-red-500 m-1">{error}</p>}
                 <input
                   value={form.email}
-                  onChange={(e) => setForm({...form, email: e.target.value})}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
                   type="text"
                   id='email'
                   placeholder='seu@gmail.com'
@@ -154,7 +162,7 @@ const Entrar = () => {
                 </label>
                 <input
                   value={form.senha_hash}
-                  onChange={(e) => setForm({...form, senha_hash: e.target.value})}
+                  onChange={(e) => setForm({ ...form, senha_hash: e.target.value })}
                   type="text"
                   id='senha'
                   placeholder='*******'
@@ -174,7 +182,7 @@ const Entrar = () => {
                 {error && <p className="text-red-500 m-1">{error}</p>}
                 <input
                   value={form.email}
-                  onChange={(e) => setForm({...form, email: e.target.value})}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
                   type="email"
                   id="reg-email"
                   name="email"
@@ -185,7 +193,7 @@ const Entrar = () => {
                 <label htmlFor="reg-senha" className="m-1">Senha</label>
                 <input
                   value={form.senha_hash}
-                  onChange={(e) => setForm({...form, senha_hash: e.target.value})}
+                  onChange={(e) => setForm({ ...form, senha_hash: e.target.value })}
                   type="password"
                   id="reg-senha"
                   name="senha"
